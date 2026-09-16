@@ -1,41 +1,71 @@
-import turtle as t, math as m, random as r, time
+import math
+import random
+import time
+import turtle as t
 
-s = t.Screen(); s.setup(700, 700); s.bgcolor("black"); s.tracer(0)
-p = t.Turtle(); p.hideturtle()
 
-def heart(a, scale):
-    x = 16 * (m.sin(a) ** 3) * scale
-    y = (13 * m.cos(a) - 5 * m.cos(2 * a) - 2 * m.cos(3 * a) - m.cos(4 * a)) * scale
+def heart_coordinates(angle, scale):
+    x = 16 * (math.sin(angle) ** 3) * scale
+    y = (13 * math.cos(angle) - 5 * math.cos(2 * angle) - 2 * math.cos(3 * angle) - math.cos(4 * angle)) * scale
     return x, y
 
-for i in range(10000):
-    a = r.uniform(0, 2 * m.pi)
-    sc = r.uniform(0.5, 15.5)
-    x, y = heart(a, sc)
 
-    ang = m.atan2(y, x) + r.uniform(-0.5, 0.5)
-    length = r.uniform(4, 14)
+def draw_heart_art():
+    screen = t.Screen()
+    screen.setup(700, 700)
+    screen.bgcolor("black")
+    screen.title("Pixel Heart")
+    screen.tracer(0)
 
-    p. pencolor(1.0, r.uniform(0.25, 0.55), r.uniform(0.65,0.85))
-    p.width(r.uniform(0.5, 1.2))
-    p.penup(); p.goto(x, y)
-    p.pendown(); p.goto(x + length * m.cos(ang), y + length * m.sin(ang))
+    pen = t.Turtle()
+    pen.hideturtle()
+    pen.speed(0)
 
-    if i % 200 == 0: s.update(); time .sleep(0.002)
+    for i in range(10000):
+        angle = random.uniform(0, 2 * math.pi)
+        scale = random.uniform(0.5, 15.5)
+        x, y = heart_coordinates(angle, scale)
 
-    for i in range(3500):
-        a = r.uniform(0, 2 * m.pi)
-        x, y = heart(a, 16.0)
+        direction = math.atan2(y, x) + random.uniform(-0.5, 0.5)
+        length = random.uniform(4, 14)
 
-        ang = m.atan2(y, x) + r.uniform(-0.35, 0.35)
-        length = r.uniform(10, 32)
+        pen.pencolor(1.0, random.uniform(0.25, 0.55), random.uniform(0.65, 0.85))
+        pen.width(random.uniform(0.5, 1.2))
+        pen.penup()
+        pen.goto(x, y)
+        pen.pendown()
+        pen.goto(x + length * math.cos(direction), y + length * math.sin(direction))
 
-        p.pencolor(1.0, r.uniform(0.45, 0.75), r.uniform(0.75, 0.95))
-        p.width(r.uniform(0.4, 0.9))
-        p.penup(); p.goto(x + r.uniform(-2, 2), y + r.uniform(-2, 2))
-        p.pendown(); p.goto(x + length * m.cos(ang), y + length * m.sin(ang))
+        if i % 200 == 0:
+            screen.update()
+            time.sleep(0.002)
 
-        if i % 150 == 0: s.update(); time.sleep(0.002)
+    for j in range(3500):
+        angle = random.uniform(0, 2 * math.pi)
+        x, y = heart_coordinates(angle, 16.0)
 
-s.update();
-t.done()
+        direction = math.atan2(y, x) + random.uniform(-0.35, 0.35)
+        length = random.uniform(10, 32)
+
+        pen.pencolor(1.0, random.uniform(0.45, 0.75), random.uniform(0.75, 0.95))
+        pen.width(random.uniform(0.4, 0.9))
+        pen.penup()
+        pen.goto(x + random.uniform(-2, 2), y + random.uniform(-2, 2))
+        pen.pendown()
+        pen.goto(x + length * math.cos(direction), y + length * math.sin(direction))
+
+        if j % 150 == 0:
+            screen.update()
+            time.sleep(0.002)
+
+    pen.penup()
+    pen.goto(0, -20)
+    pen.pencolor("white")
+    pen.write("I love you", align="center", font=("Arial", 28, "bold"))
+
+    screen.update()
+    t.done()
+
+
+if __name__ == "__main__":
+    draw_heart_art()
